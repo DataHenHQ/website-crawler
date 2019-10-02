@@ -1,0 +1,18 @@
+seeder:
+  file: ./seeder/seeder.rb
+  disabled: false
+parsers:
+  - page_type: pages
+    file: ./parsers/pages.rb
+    disabled: false
+exporters:
+  - file: ./exporters/pages_json.yaml
+    disabled: false
+  - file: ./exporters/pages_csv.yaml
+    disabled: false
+input_vars:
+  - name: starting_url
+    required: true
+    label: "Starting URL"
+    type: text
+    description: "Please provide a valid URL like this example: https://example.com"
