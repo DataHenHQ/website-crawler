@@ -14,5 +14,5 @@ input_vars:
   - name: starting_url
     required: true
     label: "Starting URL"
-    type: text
+    type: string
     description: "Please provide a valid URL like this example: https://example.com"
