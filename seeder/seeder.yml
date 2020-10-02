@@ -1,0 +1,7 @@
+---
+  - name: starting_url
+    value: starting_url|env|valid('url')
+  - _type: page
+    page_type: pages
+    url: "@starting_url"
+  

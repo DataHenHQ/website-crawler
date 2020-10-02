@@ -4,16 +4,20 @@
     _id: gid|page
     url: url|page
     title: "=title"
+
+  # loop through the links
   - value: "=a"
     iterate:
     - skip_if: "#|href|is_valid('null') |or(`#|href|is_valid('url')|not`)"
-    - if: "#|href|url('host') |eq(`url|page|url('host')`)"
+    - name: url
+      value: "#|href|abs_url(`url|page|url('scheme', 'host')`)"
+    - if: "@url|url('host') |eq(`url|page|url('host')`)"
       then:
       - _type: page
-        url: "#|href"
+        url: "@url"
         page_type: pages
       else:
       - _type: output
         _collection: external_links
-        url: "#|href"
+        url: "@url"
   
