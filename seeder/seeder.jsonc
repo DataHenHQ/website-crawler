@@ -1,0 +1,11 @@
+[
+  {
+  "name":"starting_url",
+  "value":"|env('starting_url')|if(valid('url'))" // gets from env and tries to validate the url
+  }, 
+  {
+    "_type": "page",
+    "page_type": "pages",
+    "url": "@starting_url"
+  } 
+]

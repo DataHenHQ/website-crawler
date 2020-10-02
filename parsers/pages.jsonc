@@ -1,0 +1,55 @@
+[
+  {
+    "_type": "output",
+    "_collection": "pages",
+    "_id": "|page('gid')",
+    "url": "|page('url')",
+    "title": "=title"
+  },
+  {
+    "value": "=a",
+    "iterate": [
+      {
+        "name": "url",
+        "value": "$|attr('href')"
+      },
+      { // if url is valid
+        "if": "@url|isvalid('url')",
+        "then": [
+          { // if relative url then add the proper host
+            "if": "@url|url('host') == null",
+            "then": [
+              {
+                "name": "abs_url",
+                "value": "|new_url(page('url')|url('scheme'), page('url')|url('user'), page('url')|url('host'), page('url')|url('raw_path'))"
+              }
+            ],
+            "else": [
+              {
+                "name": "abs_url",
+                "value": "@url"
+              }
+            ]
+          },
+          { // only enqueue the same host
+            "if": "@abs_url|url('host') == page('url')|url('host')",
+            "then": [
+              {
+                "_type": "page",
+                "_page_type": "pages",
+                "url": "@abs_url"
+              }
+            ],
+            "else":[
+              {
+                "_type": "output",
+                "_collection": "external_links",
+                "url": "@abs_url"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
