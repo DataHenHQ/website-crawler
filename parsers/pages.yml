@@ -1,0 +1,19 @@
+---
+  - _type: output
+    _collection: pages
+    _id: gid|page
+    url: url|page
+    title: "=title"
+  - value: "=a"
+    iterate:
+    - skip_if: "#|href|is_valid('null') |or(`#|href|is_valid('url')|not`)"
+    - if: "#|href|url('host') |eq(`url|page|url('host')`)"
+      then:
+      - _type: page
+        url: "#|href"
+        page_type: pages
+      else:
+      - _type: output
+        _collection: external_links
+        url: "#|href"
+  

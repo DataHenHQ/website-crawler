@@ -2,51 +2,29 @@
   {
     "_type": "output",
     "_collection": "pages",
-    "_id": "|page('gid')",
-    "url": "|page('url')",
+    "_id": "gid|page",
+    "url": "url|page",
     "title": "=title"
-  },
-  {
+  }, {
     "value": "=a",
     "iterate": [
       {
-        "name": "url",
-        "value": "$|attr('href')"
+        "skip_if": "#|href|is_valid('null') |or(`#|href|is_valid('url')|not`)"
       },
-      { // if url is valid
-        "if": "@url|isvalid('url')",
+      {
+        "if": "#|href|url('host') |eq(`url|page|url('host')`)",
         "then": [
-          { // if relative url then add the proper host
-            "if": "@url|url('host') == null",
-            "then": [
-              {
-                "name": "abs_url",
-                "value": "|new_url(page('url')|url('scheme'), page('url')|url('user'), page('url')|url('host'), page('url')|url('raw_path'))"
-              }
-            ],
-            "else": [
-              {
-                "name": "abs_url",
-                "value": "@url"
-              }
-            ]
-          },
-          { // only enqueue the same host
-            "if": "@abs_url|url('host') == page('url')|url('host')",
-            "then": [
-              {
-                "_type": "page",
-                "_page_type": "pages",
-                "url": "@abs_url"
-              }
-            ],
-            "else":[
-              {
-                "_type": "output",
-                "_collection": "external_links",
-                "url": "@abs_url"
-              }
-            ]
+          {
+            "_type": "page",
+            "url": "#|href",
+            "page_type": "pages"
+          }
+        ],
+        "else": [
+          {
+            "_type": "output",
+            "_collection": "external_links",
+            "url": "#|href"
           }
         ]
       }
